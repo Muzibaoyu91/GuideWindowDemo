@@ -7,8 +7,17 @@
 //
 
 #import "ViewController.h"
+#import "ByGuideWindow.h"
+
+
 
 @interface ViewController ()
+
+@property (nonatomic, strong) UIImageView *showImgView;
+
+@property (nonatomic, assign)  int runNum;
+
+@property (nonatomic, assign) BOOL myBool;
 
 @end
 
@@ -16,12 +25,38 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    if (!self.pageNum) {
+        self.pageNum = 1;
+    }
+    
+    //1.设置标题
+    [self setPageTitle];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    //2.首次打开弹出
+    [self showGuideWindow];
+    
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - function
+- (void)setPageTitle{
+    self.title = [NSString stringWithFormat:@"这是第%zd页",self.pageNum];
 }
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    ViewController *VC = [[ViewController alloc] init];
+    VC.pageNum = self.pageNum + 1;
+    [self.navigationController pushViewController:VC animated:YES];
+}
+
+- (void)showGuideWindow{
+    
+    [ByGuideWindow creatAnimationGuideWindowByKey:self.title withArrayTitle:@"guidePhoneCase" withImgesWith:nil withAlpha:1];
+    
+}
+
+
 
 @end
